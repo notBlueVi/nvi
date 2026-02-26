@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA Cloud GPU</title>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg-dark:#050505; --bg-light:#111111; --text:#e5e5e5; --accent:#388E3C; }
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-dark);color:var(--text);overflow-x:hidden;transition:0.5s;}
+body.day{background:var(--bg-light);}
+canvas#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+nav{position:fixed;width:100%;padding:20px 40px;display:flex;justify-content:space-between;backdrop-filter:blur(20px);z-index:1000;}
+.nav-links{display:flex;gap:20px;align-items:center;}
+.nav-links a{text-decoration:none;color:var(--text);font-weight:600;transition:0.3s;}
+.nav-links a:hover{color:var(--accent);}
+.toggle{cursor:pointer;padding:8px 18px;border-radius:50px;border:none;font-size:18px;background:rgba(255,255,255,0.1);color:white;transition:0.3s;}
+.toggle:hover{background:rgba(255,255,255,0.2);}
+header{padding-top:100px;text-align:center;}
+header h1{font-size:3rem;margin-bottom:10px;}
+header p{opacity:0.7;}
+section{padding:80px 20px;max-width:1200px;margin:auto;text-align:center;}
+.product-card{width:400px;margin:auto;padding:30px;border-radius:25px;background:rgba(0,0,0,0.6);backdrop-filter:blur(15px);border:1px solid rgba(56,142,60,0.3);}
+.product-card img{width:100%;border-radius:15px;margin-bottom:15px;}
+button.primary{margin-top:15px;padding:12px 28px;border-radius:25px;border:none;background:var(--accent);color:white;cursor:pointer;transition:0.3s;}
+button.primary:hover{opacity:0.85;}
+</style>
+</head>
+<body class="dark">
+<canvas id="particles"></canvas>
+<nav>
+  <h2>NVIDIA</h2>
+  <div class="nav-links">
+    <a href="products.html">Products</a>
+    <a href="index.html">Home</a>
+    <div class="toggle" id="mode-toggle" onclick="toggleMode()">🌙</div>
+  </div>
+</nav>
+
+<header>
+  <h1>NVIDIA Cloud GPU</h1>
+  <p>Enterprise GPU solution with cloud access.</p>
+</header>
+
+<section>
+  <div class="product-card">
+    <img src="https://via.placeholder.com/600x300/388E3C/000000?text=Cloud+GPU" alt="NVIDIA Cloud GPU">
+    <p>Access NVIDIA’s powerful GPUs in the cloud for AI, deep learning, and enterprise applications without owning hardware.</p>
+    <button class="primary">Pre-Order Now</button>
+  </div>
+</section>
+
+<script>
+function toggleMode(){const body=document.body; body.classList.toggle("day"); document.getElementById("mode-toggle").textContent=body.classList.contains("day")?"☀️":"🌙";}
+const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+let particles=[]; const colors=["#2e7d32","#388E3C","#81C784"];
+for(let i=0;i<150;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,size:Math.random()*2+1,speedX:Math.random()*0.3-0.15,speedY:Math.random()*0.3-0.15,color:colors[Math.floor(Math.random()*colors.length)]});}
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height); const gradient=ctx.createLinearGradient(0,0,canvas.width,canvas.height); gradient.addColorStop(0,"#0a0a0a"); gradient.addColorStop(0.5,"#050505"); gradient.addColorStop(1,"#111111"); ctx.fillStyle=gradient; ctx.fillRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.x+=p.speedX;p.y+=p.speedY;if(p.x<0||p.x>canvas.width)p.speedX*=-1;if(p.y<0||p.y>canvas.height)p.speedY*=-1; ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();}); requestAnimationFrame(animateParticles);}
+animateParticles(); window.addEventListener("resize",()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
+</script>
+</body>
+</html>
