@@ -8,23 +8,19 @@
 
 <style>
 :root {
-  --bg-dark: #0b0b0b;
+  --bg-dark: #0a0a0a;
   --text-dark: #fff;
-  --bg-light: #f5f5f7;
-  --text-light: #111;
   --accent: #76b900; /* NVIDIA green */
 }
 
 body {
   margin:0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  transition: background 0.5s ease, color 0.5s ease;
+  background: var(--bg-dark);
+  color: var(--text-dark);
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-
-body.dark { background: var(--bg-dark); color: var(--text-dark); }
-body.light { background: var(--bg-light); color: var(--text-light); }
 
 canvas#particles { position: fixed; top:0; left:0; z-index:-1; width:100%; height:100%; }
 
@@ -81,13 +77,13 @@ section { padding:140px 20px; max-width:1200px; margin:auto; text-align:center; 
   padding:40px 30px;
   border-radius:25px;
   backdrop-filter:blur(20px);
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(0,0,0,0.5);
+  border:1px solid rgba(118,185,0,0.3);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   cursor:pointer;
 }
-.card:hover { transform: translateY(-15px) scale(1.03); box-shadow:0 30px 60px rgba(0,0,0,0.4); }
-.card h3 { font-size:1.5rem; margin-bottom:10px; }
+.card:hover { transform: translateY(-15px) scale(1.03); box-shadow:0 30px 60px rgba(0,118,0,0.5); }
+.card h3 { font-size:1.5rem; margin-bottom:10px; color: var(--accent); }
 .card p { opacity:0.7; }
 
 /* PRODUCT REVEAL */
@@ -96,9 +92,9 @@ section { padding:140px 20px; max-width:1200px; margin:auto; text-align:center; 
 
 /* ORDER SECTION */
 .order-section { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:60px; }
-.order-card { width:280px; padding:30px; border-radius:25px; backdrop-filter:blur(15px); background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); transition:0.4s; }
+.order-card { width:280px; padding:30px; border-radius:25px; backdrop-filter:blur(15px); background:rgba(0,0,0,0.5); border:1px solid rgba(118,185,0,0.3); transition:0.4s; }
 .order-card:hover { transform: translateY(-10px) scale(1.03); }
-.order-card h3 { font-size:1.5rem; }
+.order-card h3 { font-size:1.5rem; color: var(--accent); }
 .order-card p { margin:15px 0; opacity:0.7; }
 .order-card button { padding:12px 28px; border:none; border-radius:25px; background: var(--accent); color:white; cursor:pointer; transition:0.3s; }
 .order-card button:hover { opacity:0.85; }
@@ -117,7 +113,7 @@ button.primary:hover { opacity:0.85; }
 </style>
 </head>
 
-<body class="dark">
+<body>
 
 <canvas id="particles"></canvas>
 
@@ -172,13 +168,11 @@ button.primary:hover { opacity:0.85; }
 </section>
 
 <script>
-// DARK/LIGHT TOGGLE
+// DARK/LIGHT TOGGLE (now always dark-green theme)
 function toggleMode() {
-  const body = document.body;
   const toggle = document.getElementById("mode-toggle");
-  body.classList.toggle("dark");
-  body.classList.toggle("light");
-  toggle.textContent = body.classList.contains("dark") ? "🌙" : "☀️";
+  // For NVIDIA we can keep dark but just symbol switch for style
+  toggle.textContent = toggle.textContent==="🌙" ? "☀️" : "🌙";
 }
 
 // COUNTDOWN
@@ -202,20 +196,18 @@ function reveal() {
 
   const productImg = document.getElementById("product-image");
   const rect = productImg.getBoundingClientRect();
-  if(rect.top < window.innerHeight && rect.bottom > 0) {
-    productImg.classList.add("active");
-  }
+  if(rect.top < window.innerHeight && rect.bottom > 0) productImg.classList.add("active");
 }
 window.addEventListener("scroll", reveal);
 
-// PARTICLE BACKGROUND WITH GRADIENT
+// PARTICLE BACKGROUND WITH GREEN GRADIENT
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-const colors = ["#76b900","#00ff00","#00f5ff","#00ffaa"];
+const colors = ["#76b900","#00ff00","#00ffaa"];
 for(let i=0;i<150;i++){
   particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+1, speedX: Math.random()*0.4-0.2, speedY: Math.random()*0.4-0.2, color: colors[Math.floor(Math.random()*colors.length)] });
 }
